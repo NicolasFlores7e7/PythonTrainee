@@ -1,0 +1,2 @@
+# PytongTrainee
+Learning Python
