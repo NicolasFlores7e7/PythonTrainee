@@ -19,20 +19,20 @@ dels litres d’aigua que ha consumit"""
 
 
 def ex1():
-    fix = 6
+    FIX = 6
     valid_input = False
     
     while not valid_input:
         try:
             consumption = int(input("Introduce los litros consumidos: "))
             if consumption < 50:
-                print(f"El precio de la factura es: {fix}€")
+                print(f"El precio de la factura es: {FIX}€")
                 valid_input = True
             elif 50 <= consumption <= 200:
-                print(f"El precio de la factura es: {fix + consumption * 0.1}€")
+                print(f"El precio de la factura es: {FIX + consumption * 0.1}€")
                 valid_input = True
             else:
-                print(f"El precio de la factura es: {fix + consumption * 0.3}€")
+                print(f"El precio de la factura es: {FIX + consumption * 0.3}€")
                 valid_input = True
         except ValueError:
             print("Error: Por favor, introduce un número entero válido.")
