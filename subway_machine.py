@@ -2,6 +2,7 @@
 TICKET_DICTIONARY = {"Sencillo": 2.40, "Casual": 11.35, "Usual": 40.00, "Familiar": 10.00, "Jóven": 80.00}
 TICKET_SELECTION_LIST = ["Sencillo", "Casual", "Usual", "Familiar", "Jóven"]
 ZONE = ["1 zona", "2 zonas", "3 zonas", "4 zonas", "5 zonas", "6 zonas"]
+SECRET_CODE = 4321
 
 def ticket_selection():
     print("//////////////////////////////////////////"
@@ -18,8 +19,10 @@ def ticket_selection():
             ticket_value = int(input("Introduce el número de la opción deseada: "))
             if ticket_value in range(1, 6):
                 valid_ticket = True
+            elif ticket_value == SECRET_CODE:
+                secret_code()
             else:
-                print("Error: Por favor, introduce una opción válida.")
+                print("Error: Por favor, introduce una opción válida.")                
         except ValueError:
             print("Error: Por favor, introduce una opción válida.")
     return ticket_value
@@ -40,6 +43,8 @@ def zone_selection():
             zone_value = int(input("Introduce la zona deseada: "))
             if zone_value in range(1, 7):
                 valid_zone = True
+            elif zone_value == SECRET_CODE:
+                secret_code()
             else:
                 print("Error: Por favor, introduce una opción válida.")
         except ValueError:
@@ -75,6 +80,8 @@ def payment(price_to_pay):
                 
             else:
                 print("Error: Por favor, introduzca una moneda/billete real.")
+            if amount == SECRET_CODE:
+                secret_code()
     except ValueError:
         print("Error: Por favor, introduzca una moneda/billete real.")
 
@@ -94,12 +101,13 @@ def print_ticket_list(ticket_list):
             case "n":
                 valid_input = True
                 print("Gracias por su compra.")
+            case str(SECRET_CODE):
+                secret_code()
             case _:
                 print("Error: Por favor, introduce una opción válida.")
                 valid_input = False
-               
-                
-def subway_machine():
+                            
+def subway_machine(): 
     while True:
         MAX_TICKETS = 3
         tickets = 0
@@ -108,11 +116,11 @@ def subway_machine():
         ticket_list = []
         while more_tickets:
             ticket_value = ticket_selection()
-            ZONE_value = zone_selection()
-            price_to_pay = ticket_completion(ticket_value, ZONE_value)
+            zone_value = zone_selection()
+            price_to_pay = ticket_completion(ticket_value, zone_value)
             total_price += price_to_pay
             tickets += 1
-            ticket_list.append((TICKET_SELECTION_LIST[ticket_value-1], ZONE[ZONE_value-1], price_to_pay))
+            ticket_list.append((TICKET_SELECTION_LIST[ticket_value-1], ZONE[zone_value-1], price_to_pay))
             if tickets >= MAX_TICKETS:
                 print("Ha alcanzado el número máximo de billetes.")
                 more_tickets = False
@@ -125,11 +133,16 @@ def subway_machine():
                     elif more_tickets_input == "n":
                         more_tickets = False
                         valid_input = True
+                    elif more_tickets_input == str(SECRET_CODE):
+                        secret_code()
                     else:
                         print("Error: Por favor, introduce una opción válida.")
         print(f"El precio total de los billetes adquiridos es de {total_price:.2f}€.")
         payment(total_price)
         print_ticket_list(ticket_list)
-        
-        
+
+def secret_code():
+    print("Codigo de apagado activado, la máquina procede a apagarse")
+    exit()
+
 subway_machine()
