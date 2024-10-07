@@ -2,16 +2,14 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = csv.reader(open('/home/nicolas.flores.7e7/Escriptori/DADES/dades/dades/Nico/Python/Ejercicios basicos/PytongTrainee/files/basket_players.csv', 'r'), delimiter=';')
+data = list(csv.reader(open('PytongTrainee/files/basket_players.csv', 'r'), delimiter=';'))
 
 def print_data_raw_data(data):
     for i, row in enumerate(data):
         print("fila número", i,row)
 
 def transform_data(data):
-    data = list(data)  
     data_transformed = []
-    
     for i, row in enumerate(data[1:], start=1): 
         row_dict = {i: row}
         data_transformed.append(row_dict)
@@ -149,13 +147,16 @@ def plot_age_distribution(translated_data):
     plt.xlabel('Edat')
     plt.ylabel('Número de Jugadors')
     plt.show()
-
 transformed_data = transform_data(data)
 translated_data = translate_data(transformed_data)
-"""export_data(translated_data, '/home/nicolas.flores.7e7/Escriptori/DADES/dades/dades/Nico/Python/Ejercicios basicos/PytongTrainee/files/jugadors_basket.csv')
+print_data_raw_data(data)
+print("//////////////////////")
+print(translated_data)
+print("//////////////////////")
+export_data(translated_data, 'PytongTrainee/files/jugadors_basket.csv')
 max_weight_and_min_height(translated_data)
+print("//////////////////////")
 plot_height_distribution(translated_data)
 plot_avg_weight_height_per_team(translated_data)
 plot_position_distribution(translated_data)
-plot_age_distribution(translated_data)"""
-printdata=print_data_raw_data(data)
+plot_age_distribution(translated_data)
