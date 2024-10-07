@@ -1,6 +1,7 @@
 import csv
 import numpy as np
 import matplotlib.pyplot as plt
+import json
 
 data = list(csv.reader(open('PytongTrainee/files/basket_players.csv', 'r'), delimiter=';'))
 
@@ -44,7 +45,7 @@ def export_data(translated_data, output_file):
     file = open(output_file, 'w')
     writer = csv.writer(file, delimiter='^')
 
-    headers = ["Nom", "Equip", "Posició", "Alçada", "Pes", "Edat"]
+    headers = ["Nom", "Equip", "Posicio", "Altura", "Pes", "Edat"]
     writer.writerow(headers)
 
     for player in translated_data:
@@ -80,7 +81,7 @@ def plot_height_distribution(translated_data):
     plt.figure(figsize=(10, 6))
     plt.hist(heights, bins=15, color='blue', edgecolor='black')
     plt.title('Distribució d Alçades dels Jugadors')
-    plt.xlabel('Alçada (cm)')
+    plt.xlabel('Altura (cm)')
     plt.ylabel('Número de Jugadors')
     plt.show()
 
@@ -106,9 +107,9 @@ def plot_avg_weight_height_per_team(translated_data):
 
     fig, ax1 = plt.subplots(figsize=(12, 8))
 
-    ax1.bar(x - width/2, avg_heights, width, label='Alçada Promig (cm)', color='blue')
+    ax1.bar(x - width/2, avg_heights, width, label='Altura Promig (cm)', color='blue')
     ax1.set_xlabel('Equips')
-    ax1.set_ylabel('Alçada Promig (cm)', color='blue')
+    ax1.set_ylabel('Altura Promig (cm)', color='blue')
     ax1.tick_params(axis='y', labelcolor='blue')
     ax1.set_xticks(x)
     ax1.set_xticklabels(teams, rotation=45, ha='right')
@@ -119,7 +120,7 @@ def plot_avg_weight_height_per_team(translated_data):
     ax2.tick_params(axis='y', labelcolor='red')
 
     fig.tight_layout()
-    plt.title('Alçada y Pes Promig per Equip')
+    plt.title('Altura y Pes Promig per Equip')
     plt.show()
 
 def plot_position_distribution(translated_data):
@@ -147,6 +148,19 @@ def plot_age_distribution(translated_data):
     plt.xlabel('Edat')
     plt.ylabel('Número de Jugadors')
     plt.show()
+    
+def csv_to_json(json_file_path):
+    csv_file_path = 'PytongTrainee/files/jugadors_basket.csv'
+    data = []
+    csv_file = open(csv_file_path, mode='r', newline='', encoding='utf-8')
+    csv_reader = csv.DictReader(csv_file, delimiter='^')
+    for row in csv_reader:
+        data.append(row)
+    csv_file.close()
+    json_file = open(json_file_path, mode='w', encoding='utf-8')
+    json.dump(data, json_file, indent=4)
+    json_file.close()
+
 transformed_data = transform_data(data)
 translated_data = translate_data(transformed_data)
 print_data_raw_data(data)
@@ -160,3 +174,5 @@ plot_height_distribution(translated_data)
 plot_avg_weight_height_per_team(translated_data)
 plot_position_distribution(translated_data)
 plot_age_distribution(translated_data)
+json_file_path = 'PytongTrainee/files/jugadors_basket.json'
+csv_to_json(json_file_path)
